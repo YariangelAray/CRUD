@@ -5,34 +5,32 @@ require('conexion.php');
 $db = new Conexion();
 $conexion = $db->getConexion();
 
+// Sacar de la base de datos las ciudades disponibles
+
 $sqlCiudades = "SELECT * FROM ciudades";
 $banderaCiudades = $conexion->prepare($sqlCiudades);
 $banderaCiudades->execute();
 $ciudades = $banderaCiudades->fetchAll();
 
-// echo "<pre>";
-// print_r($ciudades);
-// echo "</pre>";
+// Sacar de la bases de datos todos los generos
 
 $sqlGeneros = "SELECT * FROM generos";
 $banderaGeneros = $conexion->prepare($sqlGeneros);
 $banderaGeneros->execute();
 $generos = $banderaGeneros->fetchAll();
 
-// echo "<pre>";
-// print_r($generos);
-// echo "</pre>";
+// Sacar de la base de datos todos los lenguajes disponibles
 
 $sqlLenguajes = "SELECT * FROM lenguajes";
 $banderaLenguajes = $conexion->prepare($sqlLenguajes);
 $banderaLenguajes->execute();
 $lenguajes = $banderaLenguajes->fetchAll();
 
-// echo "<pre>";
-// print_r($lenguajes);
-// echo "</pre>";
-
 ?>
+
+<head>
+    <link rel="stylesheet" href="css/style.css">
+</head>
 
 <form action="controlador.php" method="post">
 
@@ -40,28 +38,39 @@ $lenguajes = $banderaLenguajes->fetchAll();
 
         <legend><h2>FORMULARIO</h2></legend>
 
-        <label for="nombre"> Nombre:
-            <input type="text" id="nombre" name="nombre" placeholder="Nombre">
+        <label for="nombre" class="titulo"> Nombre:
+            <div class="input-validar">
+                <input type="text" class="ingresar" id="nombre" name="nombre" placeholder="Nombre" 
+                required autocomplete="off" pattern="([a-zA-Z]+\s*[a-zA-Z]*){3,}" title="No se pueden ingresar números. Deben ser más de 3 carácteres.">
+                <span class="validado"></span>
+            </div>
         </label>
-        <br><br>
 
-        <label for="apellido"> Apellido:
-            <input type="text" id="apellido" name="apellido" placeholder="Apellido">
+        <label for="apellido" class="titulo"> Apellido:
+            <div class="input-validar">
+                <input type="text" class="ingresar" id="apellido" name="apellido" placeholder="Apellido" 
+                required autocomplete="off" pattern="([a-zA-Z]+\s*[a-zA-Z]*){3,}" title="No se pueden ingresar números. Deben ser más de 3 carácteres.">
+                <span class="validado"></span>            
+            </div>
         </label>
-        <br><br>
 
-        <label for="correo"> Correo electrónico:
-            <input type="text" id="correo" name="correo" placeholder="Correo">
+        <label for="correo" class="titulo"> Correo electrónico:
+            <div class="input-validar">
+                <input type="text" class="ingresar" id="correo" name="correo" placeholder="Correo" 
+                required autocomplete="off" pattern="^[a-zA-Z0-9._+-]+@[a-zA-Z.-]+\.[a-zA-Z]{2,}$">
+                <span class="validado"></span>
+            </div>
         </label>
-        <br><br>
 
-        <label for="fechaNac"> Fecha nacimiento:
-            <input type="date" name="fechaNac" id="fechaNac">
+        <label for="fechaNac" class="titulo"> Fecha nacimiento:
+            <div class="input-validar">
+                <input type="date" class="ingresar" name="fechaNac" id="fechaNac" required>
+                <span class="validado"></span>
+            </div>
         </label>
-        <br><br>
 
         <div>
-            <label for="id_ciudad">Ciudad: </label>
+            <label for="id_ciudad" class="titulo">Ciudad: </label>
             <select name="ciudad" id="id_ciudad">
                 <?php foreach ($ciudades as $key => $value)
             {?>
@@ -73,43 +82,41 @@ $lenguajes = $banderaLenguajes->fetchAll();
             </select>
         </div>
 
-        <br>
-
-        <div>
-            <label>Genero: </label><br>
-            <?php
-            foreach ($generos as $key => $value){
-            ?>
-            <label for="gen_<?=$value['id_genero']?>">            
-                <input id="gen_<?=$value['id_genero']?>" type="radio" name="genero" value="<?=$value['id_genero']?>">
-                <?=$value['genero']?>
-            </label>
-            <br>
-            <?php
-            }
-            ?>
-        </div>
-
-        <br>
-
-        <div>
-            <label>Lenguajes de Programación: </label><br>
-            <?php
-            foreach ($lenguajes as $key => $value){
+        <div class="genero-lenguajes">
+            <div>
+                <label class="titulo">Lenguajes de Programación: </label><br>
+                <?php
+                foreach ($lenguajes as $key => $value){
+                    ?>
+                <label for="len_<?=$value['id_lenguaje']?>">            
+                    <input id="len_<?=$value['id_lenguaje']?>" type="checkbox" name="lenguaje[]" value="<?=$value['id_lenguaje']?>">
+                    <?=$value['lenguaje']?>
+                </label>
+                <br>
+                <?php
+                }
                 ?>
-            <label for="len_<?=$value['id_lenguaje']?>">            
-                <input id="len_<?=$value['id_lenguaje']?>" type="checkbox" name="lenguaje[]" value="<?=$value['id_lenguaje']?>">
-                <?=$value['lenguaje']?>
-            </label>
-            <br>
-            <?php
-            }
-            ?>
-        </div>
+            </div>
 
-        <br>        
-        <input type="submit" value="Enviar">
-        <a href="read.php">Vista</a>
+            <div>
+                <label class="titulo">Genero: </label><br>
+                <?php
+                foreach ($generos as $key => $value){
+                ?>
+                <label for="gen_<?=$value['id_genero']?>">            
+                    <input id="gen_<?=$value['id_genero']?>" type="radio" name="genero" value="<?=$value['id_genero']?>" required>
+                    <?=$value['genero']?>
+                </label>
+                <br>
+                <?php
+                }
+                ?>
+            </div>
+    
+        </div>
+        
+        <button class="boton">Enviar</button>
+        <a href="read.php" class="boton boton--link">Ver usuarios</a>
     
     </fieldset>
 

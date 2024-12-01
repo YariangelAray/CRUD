@@ -1,0 +1,35 @@
+table{
+    --bordes-radius: 20px;
+    margin: 80px 0 40px;
+    border-collapse: separate;
+    border-spacing: 0;
+    background-color: cornsilk;
+    box-shadow: 0px 4px 10px sienna;
+    border-radius: var(--bordes-radius);
+    border: none;
+}
+
+th, td {
+    border: none;
+    padding: 10px;
+    text-align: center;
+    color: saddlebrown;
+}
+
+th{
+    padding: 10px 20px;
+    background-color: sienna;
+    color: antiquewhite;
+    font-weight: bold;
+}
+td{
+    border-top: 1px solid sienna;
+}
+
+th:first-child {
+    border-top-left-radius: var(--bordes-radius);
+}
+th:last-child {
+    border-top-right-radius: var(--bordes-radius);
+}
+

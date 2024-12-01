@@ -4,6 +4,8 @@ require('conexion.php');
 $db = new Conexion();
 $conexion = $db->getConexion();
 
+// Recibimos los datos que hayan sido enviados
+
 $idUser = $_REQUEST['id_usuario'];
 $nombre = $_REQUEST['nombre'];
 $apellido = $_REQUEST['apellido'];
@@ -19,8 +21,7 @@ try {
     $conexion->beginTransaction();
     // Actualizar el registro en la tabla usuarios
     
-    $sqlUsuario = "UPDATE usuarios SET nombres=:nombre, apellidos= :apellido, correo= :correo, fecha_nacimiento= :fechaNac, id_ciudad= :ciudad, id_genero= :genero WHERE id_usuario = :id_usuario";
-    // $sqlUsuario = "INSERT INTO usuarios(nombres, apellidos, correo, fecha_nacimiento, id_ciudad, id_genero ) VALUES(:nombre,:apellido, :correo, :fechaNac, :ciudad, :genero)";
+    $sqlUsuario = "UPDATE usuarios SET nombres=:nombre, apellidos= :apellido, correo= :correo, fecha_nacimiento= :fechaNac, id_ciudad= :ciudad, id_genero= :genero WHERE id_usuario = :id_usuario";    
     
     $stm = $conexion->prepare($sqlUsuario);
     
@@ -62,6 +63,8 @@ try {
     
     header("Location: read.php");
 } catch (Exception $e) {
+
+    // En caso de que se generen errores todo vuelve a su estado original
 
     $conexion->rollBack();
 

@@ -42,7 +42,7 @@ $stm -> bindParam(':id_usuario', $idUsuario);
 $stm->execute();
 $usuarioLeng = $stm->fetchAll();
 
-// Guardar solo los id en un arreglo
+// Guardar solo los id en un arreglo para tener un mejor acceso
 $lengUsuario = [];
 foreach ($usuarioLeng as $key => $value) {
     // print_r($value['id_lenguaje']);
@@ -57,6 +57,10 @@ foreach ($usuarioLeng as $key => $value) {
 
 ?>
 
+<head>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
 <form action="update.php" method="post">
 
     <fieldset>
@@ -65,28 +69,39 @@ foreach ($usuarioLeng as $key => $value) {
 
         <input type="hidden" name="id_usuario" value="<?=$idUsuario?>">
 
-        <label for="nombre"> Nombre:
-            <input type="text" id="nombre" name="nombre" placeholder="Nombre" value="<?=$usuario['nombres']?>">
+        <label for="nombre" class="titulo"> Nombre:
+            <div class="input-validar">
+                <input type="text" class="ingresar" id="nombre" name="nombre" placeholder="Nombre" value="<?=$usuario['nombres']?>"
+                required autocomplete="off" pattern="([a-zA-Z]+\s*[a-zA-Z]*)+" title="No se pueden ingresar números">
+                <span class="validado"></span>
+            </div>
         </label>
-        <br><br>
 
-        <label for="apellido"> Apellido:
-            <input type="text" id="apellido" name="apellido" placeholder="Apellido" value="<?=$usuario['apellidos']?>">
+        <label for="apellido" class="titulo"> Apellido:
+            <div class="input-validar">
+                <input type="text" class="ingresar" id="apellido" name="apellido" placeholder="Apellido" value="<?=$usuario['apellidos']?>"
+                required autocomplete="off" pattern="([a-zA-Z]+\s*[a-zA-Z]*)+" title="No se pueden ingresar números">
+                <span class="validado"></span>
+            </div>
         </label>
-        <br><br>
 
-        <label for="correo"> Correo electrónico:
-            <input type="text" id="correo" name="correo" placeholder="Correo" value="<?=$usuario['correo']?>">
+        <label for="correo" class="titulo"> Correo electrónico:
+            <div class="input-validar">
+                <input type="text" class="ingresar" id="correo" name="correo" placeholder="Correo" value="<?=$usuario['correo']?>"
+                required autocomplete="off" pattern="^[a-zA-Z0-9._+-]+@[a-zA-Z.-]+\.[a-zA-Z]{2,}$">
+                <span class="validado"></span>
+            </div>
         </label>
-        <br><br>
 
-        <label for="fechaNac"> Fecha nacimiento:
-            <input type="date" name="fechaNac" id="fechaNac" value="<?=$usuario['fecha_nacimiento']?>">
+        <label for="fechaNac" class="titulo"> Fecha nacimiento:
+            <div class="input-validar">
+                <input type="date" class="ingresar" name="fechaNac" id="fechaNac" value="<?=$usuario['fecha_nacimiento']?>" required>
+                <span class="validado"></span>
+            </div>
         </label>
-        <br><br>
 
         <div>
-            <label for="id_ciudad">Ciudad: </label>
+            <label for="id_ciudad" class="titulo">Ciudad: </label>
 
             <select name="ciudad" id="id_ciudad">
                 <?php foreach ($ciudades as $key => $value)
@@ -104,50 +119,47 @@ foreach ($usuarioLeng as $key => $value) {
 
         </div>
 
-        <br>
-
-        <div>
-            <label>Genero: </label><br>
-            <?php
-            foreach ($generos as $key => $value){
-            ?>
-            <label for="gen_<?=$value['id_genero']?>">            
-                <input id="gen_<?=$value['id_genero']?>" type="radio" name="genero" value="<?=$value['id_genero']?>"
-                <?php if ($value['id_genero'] == $usuario['id_genero']){ ?>
-                checked
-                <?php } ?>
-                >
-                <?=$value['genero']?>
-            </label>
-            <br>
-            <?php
-            }
-            ?>
-        </div>
-
-        <br>
-
-        <div>
-            <label>Lenguajes de Programación: </label><br>
-            <?php
-            foreach ($lenguajes as $key => $value){
+        <div class="genero-lenguajes">
+            <div>
+                <label class="titulo">Lenguajes de Programación: </label><br>
+                <?php
+                foreach ($lenguajes as $key => $value){
+                    ?>
+                <label for="len_<?=$value['id_lenguaje']?>">            
+                    <input id="len_<?=$value['id_lenguaje']?>" type="checkbox" name="lenguaje[]" value="<?=$value['id_lenguaje']?>"
+                    <?php if (in_array( $value['id_lenguaje'], $lengUsuario)) { ?>
+                    checked
+                    <?php } ?>
+                    >
+                    <?=$value['lenguaje']?>
+                </label>
+                <br>
+                <?php
+                }
                 ?>
-            <label for="len_<?=$value['id_lenguaje']?>">            
-                <input id="len_<?=$value['id_lenguaje']?>" type="checkbox" name="lenguaje[]" value="<?=$value['id_lenguaje']?>"
-                <?php if (in_array( $value['id_lenguaje'], $lengUsuario)) { ?>
-                checked
-                <?php } ?>
-                >
-                <?=$value['lenguaje']?>
-            </label>
-            <br>
-            <?php
-            }
-            ?>
+            </div>
+
+            <div>
+                <label class="titulo">Genero: </label><br>
+                <?php
+                foreach ($generos as $key => $value){
+                ?>
+                <label for="gen_<?=$value['id_genero']?>">            
+                    <input id="gen_<?=$value['id_genero']?>" type="radio" name="genero" value="<?=$value['id_genero']?>"
+                    <?php if ($value['id_genero'] == $usuario['id_genero']){ ?>
+                    checked
+                    <?php } ?>
+                    >
+                    <?=$value['genero']?>
+                </label>
+                <br>
+                <?php
+                }
+                ?>
+            </div>
         </div>
 
-        <br>        
-        <input type="submit" value="Enviar">
+        <button class="boton">Actualizar</button>
     
     </fieldset>
 

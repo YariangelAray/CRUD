@@ -1,0 +1,65 @@
+form{
+    width: 500px;
+    margin: 30px auto;    
+}
+
+fieldset{
+    padding: 10px 30px 30px;
+    background-color: cornsilk;
+    border: 2px solid chocolate;
+    border-radius: 30px;
+    box-shadow: 0px 4px 6px sienna;
+}
+legend{
+    text-align: center;
+}
+
+.titulo{
+    font-weight: 500;
+}
+
+.ingresar, select{
+    width: 100%;
+    padding: 10px;    
+    border: 1px solid peru;
+    border-radius: 15px;
+    background-color: linen;
+}
+
+.ingresar:focus, select:focus{
+    outline: none;
+    box-shadow: 0 0 3px peru;
+}
+
+.input-validar{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.validado{
+    display: flex;
+    align-items: center;
+}
+  
+.ingresar:invalid + .validado::after {
+    position: absolute;
+    content: "✖";
+    color: saddlebrown;
+}
+
+.ingresar:valid + .validado::after {
+    position: absolute;
+    content: "✓";
+    color: saddlebrown;
+}
+
+.genero-lenguajes{
+    display: flex;
+    justify-content: space-around;
+}
+
+input[type="radio"], input[type="checkbox"] {
+    margin-left: 10px;
+}
