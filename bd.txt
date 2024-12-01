@@ -1,0 +1,64 @@
+create table lenguajes(
+id_lenguaje int auto_increment,
+lenguaje varchar(30),
+primary key(id_lenguaje));
+
+create table generos(
+id_genero int auto_increment,
+genero varchar(15),
+primary key(id_genero));
+
+create table ciudades(
+id_ciudad int auto_increment,
+ciudad varchar(30),
+primary key(id_ciudad));
+
+create table usuarios(
+id_usuario int auto_increment,
+nombres varchar(50) not null,
+apellidos varchar(50) not null,
+correo varchar(100) not null,
+fecha_nacimiento date,
+id_genero int,
+id_ciudad int,
+primary key(id_usuario),
+unique(correo),
+foreign key (id_genero) references generos(id_genero),
+foreign key (id_ciudad) references ciudades(id_ciudad));
+
+create table lenguaje_usuario(
+id int auto_increment,
+id_usuario int,
+id_lenguaje int,
+primary key(id),
+foreign key (id_usuario) references usuarios(id_usuario),
+foreign key (id_lenguaje) references lenguajes(id_lenguaje));
+
+
+insert into ciudades(ciudad) values ("Bucaramanga"), ("Floridablanca"), ("Girón"), ("Piedecuesta"), ("Lebrija");
+insert into generos(genero) values ("Masculino"), ("Femenino"), ("Otro");
+insert into lenguajes(lenguaje) values ("Java"), (".NET"), ("SQL"), ("Python"), ("JavaScript"), ("PHP");
+
+insert into usuarios(nombres, apellidos, correo, fecha_nacimiento, id_genero, id_ciudad) values
+("Yariangel Gabriela", "Aray Munar", "gabrielamunar@gmail.com", '2007-01-04', 2, 1);
+
+SELECT u.nombres, u.apellidos, u.correo, u.fecha_nacimiento, g.genero, c.ciudad 
+FROM usuarios u INNER JOIN generos g 
+ON u.id_genero = g.id_genero 
+INNER JOIN ciudades c 
+ON u.id_ciudad = c.id_ciudad;
+
+select * from lenguaje_usuario;
+
+select u.nombres, u.apellidos, lg.lenguaje from usuarios u inner join lenguaje_usuario l on  u.id_usuario = l.id_usuario
+inner join lenguajes lg on l.id_lenguaje = lg.id_lenguaje order by u.id_usuario;
+
+
+
+create user 'yari04'@'localhost' identified by '0421';
+
+create database adso;
+use adso;
+
+grant all privileges on adso.* to 'yari04'@'localhost';
+FLUSH PRIVILEGES;
