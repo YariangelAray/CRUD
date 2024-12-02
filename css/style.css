@@ -48,13 +48,19 @@ div{
 .boton--icono{
     margin: 0;
     font-weight: normal;
-    color: antiquewhite;
     border-radius: 14px;
     font-size: 18px;
 }
 
 h1{
     margin: 40px;
+}
+h2{
+    background-color: chocolate;   
+    color: antiquewhite;
+    padding: 7px 14px;
+    border-radius: 20px;
+    box-shadow: 0px -2px 6px sienna;
 }
 
 

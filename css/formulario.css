@@ -10,10 +10,10 @@ fieldset{
     border-radius: 30px;
     box-shadow: 0px 4px 6px sienna;
 }
+
 legend{
     text-align: center;
 }
-
 .titulo{
     font-weight: 500;
 }
@@ -62,4 +62,7 @@ legend{
 
 input[type="radio"], input[type="checkbox"] {
     margin-left: 10px;
+}
+input[type="radio"]:hover, input[type="checkbox"]:hover{
+    background-color: aqua;
 }

@@ -57,7 +57,8 @@ $lenguajes = $banderaLenguajes->fetchAll();
         <label for="correo" class="titulo"> Correo electrónico:
             <div class="input-validar">
                 <input type="text" class="ingresar" id="correo" name="correo" placeholder="Correo" 
-                required autocomplete="off" pattern="^[a-zA-Z0-9._+-]+@[a-zA-Z.-]+\.[a-zA-Z]{2,}$">
+                required autocomplete="off" pattern="^[a-zA-Z0-9\._+-]+@[a-zA-Z.-]+\.[a-zA-Z]{2,}$">
+                <!-- https://regex101.com/ -->
                 <span class="validado"></span>
             </div>
         </label>
