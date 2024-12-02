@@ -63,6 +63,3 @@ legend{
 input[type="radio"], input[type="checkbox"] {
     margin-left: 10px;
 }
-input[type="radio"]:hover, input[type="checkbox"]:hover{
-    background-color: aqua;
-}

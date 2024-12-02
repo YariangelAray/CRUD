@@ -31,7 +31,6 @@ div{
     cursor: pointer;
     font-size: 16px;
     transition: 0.5s;
-    margin-left: 10px;
 }
 .boton:hover {
     background-color: burlywood;
@@ -46,7 +45,6 @@ div{
 }
 
 .boton--icono{
-    margin: 0;
     font-weight: normal;
     border-radius: 14px;
     font-size: 18px;
@@ -61,6 +59,12 @@ h2{
     padding: 7px 14px;
     border-radius: 20px;
     box-shadow: 0px -2px 6px sienna;
+}
+
+.botones{
+    margin: 0;
+    display: flex;
+    justify-content: space-evenly;
 }
 
 

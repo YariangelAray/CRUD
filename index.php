@@ -115,9 +115,10 @@ $lenguajes = $banderaLenguajes->fetchAll();
             </div>
     
         </div>
-        
-        <button class="boton">Enviar</button>
-        <a href="read.php" class="boton boton--link">Ver usuarios</a>
+        <div class="botones">
+            <button class="boton">Enviar</button>
+            <a href="read.php" class="boton boton--link">Ver usuarios</a>
+        </div>
     
     </fieldset>
 

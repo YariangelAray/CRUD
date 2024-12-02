@@ -158,8 +158,10 @@ foreach ($usuarioLeng as $key => $value) {
                 ?>
             </div>
         </div>
-
-        <button class="boton">Actualizar</button>
+        <div class="botones">
+            <button class="boton">Actualizar</button>
+            <a href="delete.php?id=<?=$idUsuario?>" class="boton boton--link">Eliminar</a>
+        </div>
     
     </fieldset>
 
