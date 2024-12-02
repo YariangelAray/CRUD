@@ -1,5 +1,5 @@
 <?php
-
+session_start(); // Iniciamos una sesion para almacenar ahi los mensajes de errores y usarlos en diferentes páginas
 require('conexion.php');
 $db = new Conexion();
 $conexion = $db->getConexion();
@@ -14,7 +14,28 @@ $ciudad = $_REQUEST['ciudad'];
 $genero = $_REQUEST['genero'];
 $lenguajes = $_REQUEST['lenguaje'] ?? [];
 
+// Expresión regular para validar el correo electrónico
+$regexCorreo = "/^[a-zA-Z0-9\._+-]+@[a-zA-Z\.-]+\.[a-zA-Z]{2,}$/";
+// Expresión regular para validar la fecha
+$regexFecha = "/^[\d]{4}-[\d]{2}-[\d]{2}$/";
+
 try {
+    // Validación de correo
+    if (!preg_match($regexCorreo, $correo)) {
+        // Almacenamos un mensaje de error en la sesión para mostrarlo en la página anterior
+        $_SESSION['mensaje'] = "El correo no cumple con lo solicitado. Debe contener un @ y al menos un dominio.";
+        header("Location: index.php");
+        exit();// Aseguramos que el script se detenga después de redirigir
+    }
+
+    // Validación de fecha
+    if (!preg_match($regexFecha, $fechaNac)) {        
+        $_SESSION['mensaje'] = "La fecha no cumple con el formato solicitado. (DD/MM/YYYY)";
+        header("Location: index.php");
+        exit();
+    }
+
+    // Comenzamos una transacción para insertar datos en la base de datos
     $conexion->beginTransaction();
 
     // Insertar en la tabla de usuarios
@@ -50,6 +71,7 @@ try {
         
     }
 
+    // Confirmamos transacción
     $conexion->commit();
      
     header("Location: read.php");

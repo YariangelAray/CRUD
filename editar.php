@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 require('conexion.php');
 
 $db = new Conexion();
@@ -54,6 +54,12 @@ foreach ($usuarioLeng as $key => $value) {
 // echo "</pre>";
 
 // var_dump(in_array(6, $lengUsuario));
+
+// Mostramos el mensaje de error mandado desde la otra sesión
+if (isset($_SESSION['mensaje'])) {
+    echo "<script>alert('" . $_SESSION['mensaje'] . "');</script>";
+    unset($_SESSION['mensaje']); // Eliminamos el mensaje después de mostrarlo
+}
 
 ?>
 

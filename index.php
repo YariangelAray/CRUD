@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 require('conexion.php');
 
 $db = new Conexion();
@@ -26,6 +26,11 @@ $banderaLenguajes = $conexion->prepare($sqlLenguajes);
 $banderaLenguajes->execute();
 $lenguajes = $banderaLenguajes->fetchAll();
 
+// Mostramos el mensaje de error mandado desde la otra sesión
+if (isset($_SESSION['mensaje'])) {
+    echo "<script>alert('" . $_SESSION['mensaje'] . "');</script>";
+    unset($_SESSION['mensaje']); // Eliminamos el mensaje después de mostrarlo
+}
 ?>
 
 <head>
@@ -57,7 +62,7 @@ $lenguajes = $banderaLenguajes->fetchAll();
         <label for="correo" class="titulo"> Correo electrónico:
             <div class="input-validar">
                 <input type="text" class="ingresar" id="correo" name="correo" placeholder="Correo" 
-                required autocomplete="off" pattern="^[a-zA-Z0-9\._+-]+@[a-zA-Z.-]+\.[a-zA-Z]{2,}$">
+                required autocomplete="off" pattern="^[a-zA-Z0-9\._+-]+@[a-zA-Z\.-]+\.[a-zA-Z]{2,}$">
                 <!-- https://regex101.com/ -->
                 <span class="validado"></span>
             </div>
@@ -65,7 +70,7 @@ $lenguajes = $banderaLenguajes->fetchAll();
 
         <label for="fechaNac" class="titulo"> Fecha nacimiento:
             <div class="input-validar">
-                <input type="date" class="ingresar" name="fechaNac" id="fechaNac" required>
+                <input type="date" class="ingresar" name="fechaNac" id="fechaNac" required title="Formato: dd/mm/yyyy">
                 <span class="validado"></span>
             </div>
         </label>

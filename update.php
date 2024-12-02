@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 require('conexion.php');
 $db = new Conexion();
 $conexion = $db->getConexion();
@@ -15,8 +15,28 @@ $ciudad = $_REQUEST['ciudad'];
 $genero = $_REQUEST['genero'];
 $lenguajes = $_REQUEST['lenguaje'] ?? [];
 
+// Expresión regular para validar el correo electrónico
+$regexCorreo = "/^[a-zA-Z0-9\._+-]+@[a-zA-Z\.-]+\.[a-zA-Z]{2,}$/";
+// Expresión regular para validar la fecha
+$regexFecha = "/^[\d]{4}-[\d]{2}-[\d]{2}$/";
 
 try {
+
+    // Validación de correo
+    if (!preg_match($regexCorreo, $correo)) {
+        // Almacenamos un mensaje de error en la sesión para mostrarlo en la página anterior
+        $_SESSION['mensaje'] = "El correo no cumple con lo solicitado.";
+        header("Location: editar.php?id=$idUser"); 
+        exit(); // salimos de la sesión
+    }
+
+    // Validación de fecha
+    if (!preg_match($regexFecha, $fechaNac)) {        
+        $_SESSION['mensaje'] = "La fecha no cumple con el formato solicitado. (DD/MM/YYYY)";
+        header("Location: index.php");
+        exit();
+    }
+
 
     $conexion->beginTransaction();
     // Actualizar el registro en la tabla usuarios
