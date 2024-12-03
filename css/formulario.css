@@ -7,7 +7,7 @@ fieldset{
     padding: 10px 30px 30px;
     background-color: cornsilk;
     border: 2px solid chocolate;
-    border-radius: 30px;
+    border-radius: 50px;
     box-shadow: 0px 4px 6px sienna;
 }
 
@@ -31,6 +31,10 @@ legend{
     box-shadow: 0 0 3px peru;
 }
 
+select:hover, .ingresar:hover{
+    background-color: antiquewhite;
+}
+
 option:checked{
     background-color: chocolate;
     color: antiquewhite;
@@ -40,24 +44,27 @@ option:checked{
     width: 100%;
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 6px;
 }
 
 .validado{
     display: flex;
     align-items: center;
+    font-size: 20px;
+    color: saddlebrown;
+    width: 15px;
 }
   
 .ingresar:invalid + .validado::after {
     position: absolute;
     content: "✖";
-    color: saddlebrown;
+    
 }
 
 .ingresar:valid + .validado::after {
     position: absolute;
     content: "✓";
-    color: saddlebrown;
+    /* color: saddlebrown; */
 }
 
 .genero-lenguajes{

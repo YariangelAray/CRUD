@@ -22,6 +22,7 @@ $regexFecha = "/^[\d]{4}-[\d]{2}-[\d]{2}$/";
 // Expresión para válidar el nombre y el apellido
 $regexText = "/([a-zA-Z]+\s*[a-zA-Z]*){3,}/";
 
+
 try {
 
     // Validación de correo
@@ -116,7 +117,6 @@ try {
     // En caso de que se generen errores todo vuelve a su estado original
 
     $conexion->rollBack();
-
     $_SESSION['mensaje'] = "Ha ocurrido un error: " . $e->getMessage();
     header("Location: editar.php?id=$idUser");
 

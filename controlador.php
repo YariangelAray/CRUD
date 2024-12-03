@@ -30,9 +30,9 @@ $stm->execute();
 $correos = $stm->fetch();
 
 
-echo "<pre>";
-print_r($correos);
-echo "</pre>";
+// echo "<pre>";
+// print_r($correos);
+// echo "</pre>";
 
 // if (!empty($correos)){
 //     echo "Si existe";
@@ -47,14 +47,10 @@ try {
 
     // Validar que el correo no exista
     if (!empty($correos)){
-        $_SESSION['mensaje'] = "Este correo ya existe. Intente con otro.";
+        $_SESSION['mensaje'] = "El correo que intenta agregar ya existe en nuestra base de datos.";
         header("Location: index.php");
         exit();
-    }
-    else{
-        echo "El correo no existe";
-    }
-            
+    }       
         
 
     // Validación de correo

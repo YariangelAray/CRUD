@@ -28,7 +28,7 @@ if (empty($usuarios)) {
 else{
 ?>
 
-<table border="1">
+<table>
     <thead>
         <th>ID</th>
         <th>Nombres</th>
