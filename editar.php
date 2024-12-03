@@ -100,7 +100,7 @@ if (isset($_SESSION['mensaje'])) {
 
         <label for="fechaNac" class="titulo"> Fecha nacimiento:
             <div class="input-validar">
-                <input type="date" class="ingresar" name="fechaNac" id="fechaNac" value="<?=$usuario['fecha_nacimiento']?>" required>
+                <input type="date" class="ingresar" name="fechaNac" id="fechaNac" value="<?=$usuario['fecha_nacimiento']?>" required max="<?=date('Y')?>-<?=date('m')?>-<?=date('d')?>">
                 <span class="validado"></span>
             </div>
         </label>

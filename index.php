@@ -62,7 +62,7 @@ if (isset($_SESSION['mensaje'])) {
 
         <label for="correo" class="titulo"> Correo electrónico:
             <div class="input-validar">
-                <input type="text" class="ingresar" id="correo" name="correo" placeholder="Correo" 
+                <input type="email" class="ingresar" id="correo" name="correo" placeholder="Correo" 
                 required autocomplete="off" pattern="^[a-zA-Z0-9\._+-]+@[a-zA-Z\.-]+\.[a-zA-Z]{2,}$">
                 <!-- https://regex101.com/ -->
                 <span class="validado"></span>
@@ -71,7 +71,7 @@ if (isset($_SESSION['mensaje'])) {
 
         <label for="fechaNac" class="titulo"> Fecha nacimiento:
             <div class="input-validar">
-                <input type="date" class="ingresar" name="fechaNac" id="fechaNac" required title="Formato: dd/mm/yyyy">
+                <input type="date" class="ingresar" name="fechaNac" id="fechaNac" required title="Formato: dd/mm/yyyy" max="<?=date('Y')?>-<?=date('m')?>-<?=date('d')?>">
                 <span class="validado"></span>
             </div>
         </label>
