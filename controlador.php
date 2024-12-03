@@ -1,5 +1,5 @@
 <?php
-session_start(); // Iniciamos una sesion para almacenar ahi los mensajes de errores y usarlos en diferentes páginas
+session_start(); // Iniciamos una sesion para almacenar ahi los mensajes de errores y mostrarlos en diferentes páginas
 require('conexion.php');
 $db = new Conexion();
 $conexion = $db->getConexion();
@@ -31,6 +31,13 @@ try {
     // Validación de fecha
     if (!preg_match($regexFecha, $fechaNac)) {        
         $_SESSION['mensaje'] = "La fecha no cumple con el formato solicitado. (DD/MM/YYYY)";
+        header("Location: index.php");
+        exit();
+    }
+
+     // Validación de lenguajes
+     if (empty($lenguajes)) {
+        $_SESSION['mensaje'] = "Debe seleccionar al menos un lenguaje de programación.";
         header("Location: index.php");
         exit();
     }
@@ -79,7 +86,8 @@ try {
 
     $conexion->rollBack();
 
-    echo "Ha ocurrido un error. ---->".$e->getMessage();
+    $_SESSION['mensaje'] = "Ha ocurrido un error: " . $e->getMessage();
+    header("Location: index.php");
 }
 
 ?>

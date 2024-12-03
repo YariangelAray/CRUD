@@ -25,18 +25,24 @@ try {
     // Validación de correo
     if (!preg_match($regexCorreo, $correo)) {
         // Almacenamos un mensaje de error en la sesión para mostrarlo en la página anterior
-        $_SESSION['mensaje'] = "El correo no cumple con lo solicitado.";
+        $_SESSION['mensaje'] = "El correo modificado no cumple con lo solicitado. Debe contener un @ y al menos un dominio.";
         header("Location: editar.php?id=$idUser"); 
         exit(); // salimos de la sesión
     }
 
     // Validación de fecha
     if (!preg_match($regexFecha, $fechaNac)) {        
-        $_SESSION['mensaje'] = "La fecha no cumple con el formato solicitado. (DD/MM/YYYY)";
-        header("Location: index.php");
+        $_SESSION['mensaje'] = "La fecha modificada no cumple con el formato solicitado. (DD/MM/YYYY)";
+        header("Location: editar.php?id=$idUser");
         exit();
     }
 
+    // Validación de lenguajes
+    if (empty($lenguajes)) {
+        $_SESSION['mensaje'] = "Debe tener seleccionado al menos un lenguaje de programación.";
+        header("Location: editar.php?id=$idUser");
+        exit();
+    }
 
     $conexion->beginTransaction();
     // Actualizar el registro en la tabla usuarios
@@ -88,7 +94,8 @@ try {
 
     $conexion->rollBack();
 
-    echo "Ha ocurrido un error ----> ".$e->getMessage();
+    $_SESSION['mensaje'] = "Ha ocurrido un error: " . $e->getMessage();
+    header("Location: editar.php?id=$idUser");
 
 }
 
