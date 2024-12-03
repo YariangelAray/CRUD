@@ -19,6 +19,8 @@ $lenguajes = $_REQUEST['lenguaje'] ?? [];
 $regexCorreo = "/^[a-zA-Z0-9\._+-]+@[a-zA-Z\.-]+\.[a-zA-Z]{2,}$/";
 // Expresión regular para validar la fecha
 $regexFecha = "/^[\d]{4}-[\d]{2}-[\d]{2}$/";
+// Expresión para válidar el nombre y el apellido
+$regexText = "/([a-zA-Z]+\s*[a-zA-Z]*){3,}/";
 
 try {
 
@@ -40,6 +42,27 @@ try {
     // Validación de lenguajes
     if (empty($lenguajes)) {
         $_SESSION['mensaje'] = "Debe tener seleccionado al menos un lenguaje de programación.";
+        header("Location: editar.php?id=$idUser");
+        exit();
+    }
+
+    // Validación de nombres y apellidos
+    if (empty($nombre) || empty($apellido)) {
+        $_SESSION['mensaje'] = "Los campos de nombre o apellido no pueden estar vacíos.";
+        header("Location: editar.php?id=$idUser");
+        exit();
+    }
+
+    // Validación de nombres y apellidos con expresiones regulares
+    if (!preg_match($regexText, $nombre) || !preg_match($regexText, $nombre)) {
+        $_SESSION['mensaje'] = "No se pueden ingresar números. Deben ser más de 3 carácteres.";
+        header("Location: editar.php?id=$idUser");
+        exit();
+    }
+
+    // Validación de generos
+    if (empty($genero)) {
+        $_SESSION['mensaje'] = "Debe seleccionar su género.";
         header("Location: editar.php?id=$idUser");
         exit();
     }

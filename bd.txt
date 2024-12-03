@@ -53,7 +53,7 @@ select * from lenguaje_usuario;
 select u.nombres, u.apellidos, lg.lenguaje from usuarios u inner join lenguaje_usuario l on  u.id_usuario = l.id_usuario
 inner join lenguajes lg on l.id_lenguaje = lg.id_lenguaje order by u.id_usuario;
 
-
+-- En root
 
 create user 'yari04'@'localhost' identified by '0421';
 

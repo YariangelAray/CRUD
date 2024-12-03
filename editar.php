@@ -31,8 +31,7 @@ $sqlUsuario = "SELECT * FROM usuarios WHERE id_usuario=:id_usuario";
 $stm = $conexion->prepare($sqlUsuario);
 $stm -> bindParam(':id_usuario', $idUsuario);
 $stm->execute();
-$usuario = $stm->fetchAll();
-$usuario = $usuario[0];
+$usuario = $stm->fetch();
 
 // Obtener los lenguajes que seleccionó el usuario
 
@@ -50,7 +49,7 @@ foreach ($usuarioLeng as $key => $value) {
 }
 
 // echo "<pre>";
-// print_r($lengUsuario);
+// print_r($usuario);
 // echo "</pre>";
 
 // var_dump(in_array(6, $lengUsuario));
@@ -71,7 +70,7 @@ if (isset($_SESSION['mensaje'])) {
 
     <fieldset>
 
-        <legend><h2>DATOS USUARIO: <?=$idUsuario?> </h2></legend>
+        <legend><h2>USUARIO: <?=$idUsuario?> </h2></legend>
 
         <input type="hidden" name="id_usuario" value="<?=$idUsuario?>">
 
@@ -94,7 +93,7 @@ if (isset($_SESSION['mensaje'])) {
         <label for="correo" class="titulo"> Correo electrónico:
             <div class="input-validar">
                 <input type="text" class="ingresar" id="correo" name="correo" placeholder="Correo" value="<?=$usuario['correo']?>"
-                required autocomplete="off" pattern="^[a-zA-Z0-9._+-]+@[a-zA-Z.-]+\.[a-zA-Z]{2,}$">
+                required autocomplete="off" pattern="^[a-zA-Z0-9\._+-]+@[a-zA-Z\.-]+\.[a-zA-Z]{2,}$">
                 <span class="validado"></span>
             </div>
         </label>
@@ -112,11 +111,7 @@ if (isset($_SESSION['mensaje'])) {
             <select name="ciudad" id="id_ciudad">
                 <?php foreach ($ciudades as $key => $value)
             {?>
-                <option id="<?=$value['id_ciudad']?>" value="<?=$value['id_ciudad']?>"
-                <?php if ($value['id_ciudad'] == $usuario['id_ciudad']){ ?>
-                selected
-                <?php } ?>
-                >
+                <option id="<?=$value['id_ciudad']?>" value="<?=$value['id_ciudad']?>" <?= $value['id_ciudad'] == $usuario['id_ciudad'] ? "selected" : "" ?>>
                     <?=$value['ciudad']?>
                 </option>
                 <?php
@@ -133,10 +128,7 @@ if (isset($_SESSION['mensaje'])) {
                     ?>
                 <label for="len_<?=$value['id_lenguaje']?>">            
                     <input id="len_<?=$value['id_lenguaje']?>" type="checkbox" name="lenguaje[]" value="<?=$value['id_lenguaje']?>"
-                    <?php if (in_array( $value['id_lenguaje'], $lengUsuario)) { ?>
-                    checked
-                    <?php } ?>
-                    >
+                    <?= in_array( $value['id_lenguaje'], $lengUsuario) ? "checked" : "" ?>>
                     <?=$value['lenguaje']?>
                 </label>
                 <br>
@@ -152,10 +144,7 @@ if (isset($_SESSION['mensaje'])) {
                 ?>
                 <label for="gen_<?=$value['id_genero']?>">            
                     <input id="gen_<?=$value['id_genero']?>" type="radio" name="genero" value="<?=$value['id_genero']?>"
-                    <?php if ($value['id_genero'] == $usuario['id_genero']){ ?>
-                    checked
-                    <?php } ?>
-                    >
+                    <?= $value['id_genero'] == $usuario['id_genero'] ? "checked" : "" ?>>
                     <?=$value['genero']?>
                 </label>
                 <br>

@@ -31,6 +31,11 @@ legend{
     box-shadow: 0 0 3px peru;
 }
 
+option:checked{
+    background-color: chocolate;
+    color: antiquewhite;
+}
+
 .input-validar{
     width: 100%;
     display: flex;
@@ -60,6 +65,8 @@ legend{
     justify-content: space-around;
 }
 
-input[type="radio"], input[type="checkbox"] {
+input[type="checkbox"], 
+input[type="radio"]{
     margin-left: 10px;
+    accent-color: chocolate;
 }
