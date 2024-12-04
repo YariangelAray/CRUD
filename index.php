@@ -1,6 +1,6 @@
 <?php
 session_start();
-require('conexion.php');
+require_once('conexion.php');
 
 $db = new Conexion();
 $conexion = $db->getConexion();
@@ -26,10 +26,10 @@ $banderaLenguajes = $conexion->prepare($sqlLenguajes);
 $banderaLenguajes->execute();
 $lenguajes = $banderaLenguajes->fetchAll();
 
-// Mostramos el mensaje de error mandado desde la otra sesión
-if (isset($_SESSION['mensaje'])) {
-    echo "<script>alert('". $_SESSION['mensaje'] ."');</script>";
-    unset($_SESSION['mensaje']); // Eliminamos el mensaje después de mostrarlo
+// Mostramos los errores enviados desde la otra sesión
+if (isset($_SESSION['errores'])) {
+    echo "<script>alert('". $_SESSION['errores'] ."');</script>";
+    unset($_SESSION['errores']); // Eliminamos el mensaje después de mostrarlo
 }
 
 ?>
@@ -38,7 +38,7 @@ if (isset($_SESSION['mensaje'])) {
     <link rel="stylesheet" href="css/style.css">
 </head>
 
-<form action="controlador.php" method="post">
+<form action="prueba.php" method="post">
 
     <fieldset>
 

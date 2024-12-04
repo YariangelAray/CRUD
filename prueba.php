@@ -1,12 +1,13 @@
 <?php
-session_start();
+session_start(); // Iniciamos una sesion para almacenar ahi los mensajes de errores y mostrarlos en diferentes páginas
 require('conexion.php');
+include('helpers.php');
+
 $db = new Conexion();
 $conexion = $db->getConexion();
 
-// Recibimos los datos que hayan sido enviados
+// Recibir lo enviado en el formulario
 
-$idUser = $_REQUEST['id_usuario'];
 $nombre = $_REQUEST['nombre'];
 $apellido = $_REQUEST['apellido'];
 $correo = $_REQUEST['correo'];
@@ -15,30 +16,33 @@ $ciudad = $_REQUEST['ciudad'];
 $genero = $_REQUEST['genero'];
 $lenguajes = $_REQUEST['lenguaje'] ?? [];
 
+
 // Llamamos a una función para validar los datos, la cual nos retornará un array con todos los erores que
 // tuvo el usuario al enviar el formulario
 $errores = validar($_REQUEST);
 
+// die();
 
 if (!empty($errores)) {
     // Almacenamos el array de errore en la sesión para mostrarlo en la página anterior.
     $_SESSION['errores'] = implode("✖", $errores);
-    header("Location: editar.php?id=$idUser");
+    header("Location: index.php");
     exit();
 }
 
 try {
 
-
+    // Comenzamos una transacción para insertar datos en la base de datos
     $conexion->beginTransaction();
-    // Actualizar el registro en la tabla usuarios
+
+    // Insertar en la tabla de usuarios
     
-    $sqlUsuario = "UPDATE usuarios SET nombres=:nombre, apellidos= :apellido, correo= :correo, fecha_nacimiento= :fechaNac, id_ciudad= :ciudad, id_genero= :genero WHERE id_usuario = :id_usuario";    
+    $sqlA = "INSERT INTO usuarios(nombres, apellidos, correo, fecha_nacimiento, id_ciudad, id_genero ) VALUES(:nombre,:apellido, :correo, :fechaNac, :ciudad, :genero)";
     
-    $stm = $conexion->prepare($sqlUsuario);
+    $stm = $conexion->prepare($sqlA);
     
     // Bindear los datos
-    $stm -> bindParam(':id_usuario', $idUser);
+    
     $stm -> bindParam(':nombre', $nombre);
     $stm -> bindParam(':apellido', $apellido);
     $stm -> bindParam(':correo', $correo);
@@ -48,42 +52,32 @@ try {
     
     $stm->execute();
     
+    // Extraer id del usuario
+    $lastID = $conexion->lastInsertId();
     
-    // Actualizar el registro en la tabla lenguaje_usuario
+    // Insertar en la tabla lenguaje_usuario
     
-    // Primero se elimina el registro
-    
-    $sqlELim = "DELETE FROM lenguaje_usuario WHERE id_usuario = :id_usuario";
-    $stm = $conexion->prepare($sqlELim);
-    $stm -> bindParam(':id_usuario', $idUser);
-    $stm->execute();
-    
-    // Luego los volvemos a registrar
-    
-    $sqlLeng = "INSERT INTO lenguaje_usuario(id_usuario, id_lenguaje) VALUES(:id_usuario, :id_lenguaje)";
-    $stm = $conexion->prepare($sqlLeng);
+    $sqlB = "INSERT INTO lenguaje_usuario(id_usuario, id_lenguaje) VALUES(:id_usuario, :id_lenguaje)";
+    $stm = $conexion->prepare($sqlB);
     
     foreach ($lenguajes as $key => $value) {
     
-        $stm -> bindParam('id_usuario', $idUser);
+        $stm -> bindParam('id_usuario', $lastID);
         $stm -> bindParam('id_lenguaje', $value);
         $stm->execute();
         
     }
 
+    // Confirmamos transacción
     $conexion->commit();
-    
+     
     header("Location: read.php");
 } catch (Exception $e) {
 
-    // En caso de que se generen errores todo vuelve a su estado original
-
     $conexion->rollBack();
+
     $_SESSION['mensaje'] = "Ha ocurrido un error: " . $e->getMessage();
-    header("Location: editar.php?id=$idUser");
-
+    header("Location: index.php");
 }
-
-
 
 ?>

@@ -41,7 +41,7 @@ $stm -> bindParam(':id_usuario', $idUsuario);
 $stm->execute();
 $usuarioLeng = $stm->fetchAll();
 
-// Guardar solo los id en un arreglo para tener un mejor acceso
+// Guardar solo los id en un arreglo para tener un mejor acceso a ellos
 $lengUsuario = [];
 foreach ($usuarioLeng as $key => $value) {
     // print_r($value['id_lenguaje']);
@@ -54,10 +54,10 @@ foreach ($usuarioLeng as $key => $value) {
 
 // var_dump(in_array(6, $lengUsuario));
 
-// Mostramos el mensaje de error mandado desde la otra sesión
-if (isset($_SESSION['mensaje'])) {
-    echo "<script>alert('" . $_SESSION['mensaje'] . "');</script>";
-    unset($_SESSION['mensaje']); // Eliminamos el mensaje después de mostrarlo
+
+if (isset($_SESSION['errores'])) {
+    echo "<script>alert('" . $_SESSION['errores'] . "');</script>";
+    unset($_SESSION['errores']); // Eliminamos el mensaje después de mostrarlo
 }
 
 ?>

@@ -1,6 +1,7 @@
 <?php
 session_start(); // Iniciamos una sesion para almacenar ahi los mensajes de errores y mostrarlos en diferentes páginas
 require('conexion.php');
+require('helpers.php');
 $db = new Conexion();
 $conexion = $db->getConexion();
 
@@ -30,18 +31,13 @@ $stm->execute();
 $correos = $stm->fetch();
 
 
-// echo "<pre>";
-// print_r($correos);
-// echo "</pre>";
+// Llamamos a una función para validar los datos, la cual nos retornará un array con todos los erores que
+// tuvo el usuario al enviar el formulario
+$errores = validar($_REQUEST, $regexCorreo, $regexFecha, $regexText, $correos);
 
-// if (!empty($correos)){
-//     echo "Si existe";
-// }
-// else{
-//     echo "El correo no existe";
-// }
 
 // die();
+
 
 try {
 
