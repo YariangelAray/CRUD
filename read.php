@@ -22,7 +22,7 @@ $usuarios = $stm->fetchAll();
 // Verificamos que haya usuarios
 if (empty($usuarios)) {
 ?>
-<h1>No hay registros que mostrar</h1>
+    <h1>No hay registros que mostrar.</h1>
 <?php
 }
 else{

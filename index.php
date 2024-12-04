@@ -32,13 +32,18 @@ if (isset($_SESSION['errores'])) {
     unset($_SESSION['errores']); // Eliminamos el mensaje después de mostrarlo
 }
 
+// Datos del usuario
+if (isset($_SESSION['usuario'])){
+    $usuario = $_SESSION['usuario'];
+    unset($_SESSION['usuario']);
+}
 ?>
 
 <head>
     <link rel="stylesheet" href="css/style.css">
 </head>
 
-<form action="prueba.php" method="post">
+<form action="controlador.php" method="post">
 
     <fieldset>
 
@@ -47,7 +52,8 @@ if (isset($_SESSION['errores'])) {
         <label for="nombre" class="titulo"> Nombre:
             <div class="input-validar">
                 <input type="text" class="ingresar" id="nombre" name="nombre" placeholder="Nombre" 
-                required autocomplete="off" pattern="([a-zA-Z]+\s*[a-zA-Z]*){3,}" title="No se pueden ingresar números. Deben ser más de 3 carácteres.">
+                required autocomplete="off" pattern="([a-zA-Z]+\s*[a-zA-Z]*){3,}" title="No se pueden ingresar números. Deben ser más de 3 carácteres."
+                <?= !empty($usuario) ? 'value="'.$usuario['nombre'].'"' : ""?>>
                 <span class="validado"></span>
             </div>
         </label>
@@ -55,7 +61,8 @@ if (isset($_SESSION['errores'])) {
         <label for="apellido" class="titulo"> Apellido:
             <div class="input-validar">
                 <input type="text" class="ingresar" id="apellido" name="apellido" placeholder="Apellido" 
-                required autocomplete="off" pattern="([a-zA-Z]+\s*[a-zA-Z]*){3,}" title="No se pueden ingresar números. Deben ser más de 3 carácteres.">
+                required autocomplete="off" pattern="([a-zA-Z]+\s*[a-zA-Z]*){3,}" title="No se pueden ingresar números. Deben ser más de 3 carácteres."
+                <?= !empty($usuario) ? 'value="'.$usuario['apellido'].'"' : ""?>>
                 <span class="validado"></span>            
             </div>
         </label>
@@ -63,7 +70,8 @@ if (isset($_SESSION['errores'])) {
         <label for="correo" class="titulo"> Correo electrónico:
             <div class="input-validar">
                 <input type="email" class="ingresar" id="correo" name="correo" placeholder="Correo" 
-                required autocomplete="off" pattern="^[a-zA-Z0-9\._+-]+@[a-zA-Z\.-]+\.[a-zA-Z]{2,}$">
+                required autocomplete="off" pattern="^[a-zA-Z0-9\._+-]+@[a-zA-Z\.-]+\.[a-zA-Z]{2,}$" title="Debe incluir un @ y un dominio."
+                <?= !empty($usuario) ? 'value="'.$usuario['correo'].'"' : ""?>>
                 <!-- https://regex101.com/ -->
                 <span class="validado"></span>
             </div>
@@ -71,7 +79,8 @@ if (isset($_SESSION['errores'])) {
 
         <label for="fechaNac" class="titulo"> Fecha nacimiento:
             <div class="input-validar">
-                <input type="date" class="ingresar" name="fechaNac" id="fechaNac" required title="Formato: dd/mm/yyyy" max="<?=date('Y')?>-<?=date('m')?>-<?=date('d')?>">
+                <input type="date" class="ingresar" name="fechaNac" id="fechaNac" required title="Formato: dd/mm/yyyy" max="<?=date('Y')?>-<?=date('m')?>-<?=date('d')?>"
+                <?= !empty($usuario) ? 'value="'.$usuario['fechaNac'].'"' : ""?>>
                 <span class="validado"></span>
             </div>
         </label>
@@ -81,7 +90,8 @@ if (isset($_SESSION['errores'])) {
             <select name="ciudad" id="id_ciudad">
                 <?php foreach ($ciudades as $key => $value)
             {?>
-                <option id="<?=$value['id_ciudad']?>" value="<?=$value['id_ciudad']?>">
+                <option id="<?=$value['id_ciudad']?>" value="<?=$value['id_ciudad']?>"
+                <?= !empty($usuario) ? ($usuario['ciudad'] == $value['id_ciudad'] ? "selected" : "") : ""?>>
                     <?=$value['ciudad']?>
                 </option>
                 <?php
@@ -96,7 +106,8 @@ if (isset($_SESSION['errores'])) {
                 foreach ($lenguajes as $key => $value){
                     ?>
                 <label for="len_<?=$value['id_lenguaje']?>">            
-                    <input id="len_<?=$value['id_lenguaje']?>" type="checkbox" name="lenguaje[]" value="<?=$value['id_lenguaje']?>">
+                    <input id="len_<?=$value['id_lenguaje']?>" type="checkbox" name="lenguaje[]" value="<?=$value['id_lenguaje']?>"
+                    <?= !empty($usuario['lenguaje']) ? (in_array($value['id_lenguaje'], $usuario['lenguaje']) ? "checked" : "") : "" ?>>
                     <?=$value['lenguaje']?>
                 </label>
                 <br>
@@ -111,7 +122,8 @@ if (isset($_SESSION['errores'])) {
                 foreach ($generos as $key => $value){
                 ?>
                 <label for="gen_<?=$value['id_genero']?>">            
-                    <input id="gen_<?=$value['id_genero']?>" type="radio" name="genero" value="<?=$value['id_genero']?>" required>
+                    <input id="gen_<?=$value['id_genero']?>" type="radio" name="genero" value="<?=$value['id_genero']?>" required
+                    <?= !empty($usuario) ? ($usuario['genero'] == $value['id_genero'] ? "checked" : "") : ""?>>
                     <?=$value['genero']?>
                 </label>
                 <br>

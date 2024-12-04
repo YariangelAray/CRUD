@@ -1,7 +1,7 @@
 <?php
 require_once('conexion.php');
 
-function validar($usuario){
+function validar($usuario, $controlador){
     $db = new Conexion();
     $conexion = $db->getConexion();
 
@@ -24,11 +24,11 @@ function validar($usuario){
     
 
     // Validar que el correo no exista
-    if (!empty($correos)) {
+    if (!empty($correos) && $controlador) {
         $errores[] = "El correo que intenta agregar ya existe en nuestra base de datos.";
     }
 
-    // Validación de correo
+    // Validación de correo con expresión regular
     if (!preg_match($regexCorreo, $usuario['correo'])) {
         $errores[] = "El correo no cumple con lo solicitado. Debe contener un @ y al menos un dominio.";
     }
@@ -59,6 +59,18 @@ function validar($usuario){
     }
 
     return $errores;
+}
+
+function sacarIdLenguajes($lenguajes) {
+
+    $lenguajesID = [];
+
+    foreach ($lenguajes as $key => $value) {
+        // print_r($value['id_lenguaje']);
+        $lenguajesID[] = $value['id_lenguaje'];
+    }
+
+    return $lenguajesID;
 }
 
 

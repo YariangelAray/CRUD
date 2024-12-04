@@ -15,6 +15,7 @@ body{
     align-items: center;
     background-color: seashell;
     padding-top: 50px;
+    gap:30px;
 }
 
 div{
@@ -32,6 +33,7 @@ div{
     cursor: pointer;
     font-size: 16px;
     transition: 0.4s;
+    text-decoration: none;
 }
 .boton:hover {
     background-color: burlywood;

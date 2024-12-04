@@ -1,15 +1,16 @@
 <?php
 session_start();
 require('conexion.php');
+require('helpers.php');
 $db = new Conexion();
 $conexion = $db->getConexion();
 
 // Recibimos los datos que hayan sido enviados
 
 $idUser = $_REQUEST['id_usuario'];
-$nombre = $_REQUEST['nombre'];
-$apellido = $_REQUEST['apellido'];
-$correo = $_REQUEST['correo'];
+$nombre = trim($_REQUEST['nombre']);
+$apellido = trim($_REQUEST['apellido']);
+$correo = trim($_REQUEST['correo']);
 $fechaNac = $_REQUEST['fechaNac'];
 $ciudad = $_REQUEST['ciudad'];
 $genero = $_REQUEST['genero'];
@@ -17,7 +18,7 @@ $lenguajes = $_REQUEST['lenguaje'] ?? [];
 
 // Llamamos a una función para validar los datos, la cual nos retornará un array con todos los erores que
 // tuvo el usuario al enviar el formulario
-$errores = validar($_REQUEST);
+$errores = validar($_REQUEST, false); // El falso es para que no se haga la validación del correo existente en la base de datos.
 
 
 if (!empty($errores)) {

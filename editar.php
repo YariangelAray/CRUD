@@ -1,6 +1,7 @@
 <?php
 session_start();
 require('conexion.php');
+require('helpers.php');
 
 $db = new Conexion();
 $conexion = $db->getConexion();
@@ -41,18 +42,9 @@ $stm -> bindParam(':id_usuario', $idUsuario);
 $stm->execute();
 $usuarioLeng = $stm->fetchAll();
 
-// Guardar solo los id en un arreglo para tener un mejor acceso a ellos
-$lengUsuario = [];
-foreach ($usuarioLeng as $key => $value) {
-    // print_r($value['id_lenguaje']);
-    $lengUsuario[] = $value['id_lenguaje'];
-}
+// Guardar solo los id de los lenguajes en un arreglo para tener un mejor acceso a ellos
 
-// echo "<pre>";
-// print_r($usuario);
-// echo "</pre>";
-
-// var_dump(in_array(6, $lengUsuario));
+$lenguajesID = sacarIdLenguajes($usuarioLeng);
 
 
 if (isset($_SESSION['errores'])) {
@@ -66,6 +58,16 @@ if (isset($_SESSION['errores'])) {
     <link rel="stylesheet" href="css/style.css">
 </head>
 
+<?php
+if (empty($usuario)) {
+?>
+    <h1>El usuario ya ha sido eliminado.</h1>
+    <a href="read.php" class="boton">Ver usuarios</a>
+    <a href="index.php" class="boton boton--link">Agregar nuevo usuario</a>
+<?php
+}
+else {
+?>
 <form action="update.php" method="post">
 
     <fieldset>
@@ -92,7 +94,7 @@ if (isset($_SESSION['errores'])) {
 
         <label for="correo" class="titulo"> Correo electrónico:
             <div class="input-validar">
-                <input type="text" class="ingresar" id="correo" name="correo" placeholder="Correo" value="<?=$usuario['correo']?>"
+                <input type="email" class="ingresar" id="correo" name="correo" placeholder="Correo" value="<?=$usuario['correo']?>"
                 required autocomplete="off" pattern="^[a-zA-Z0-9\._+-]+@[a-zA-Z\.-]+\.[a-zA-Z]{2,}$">
                 <span class="validado"></span>
             </div>
@@ -128,7 +130,7 @@ if (isset($_SESSION['errores'])) {
                     ?>
                 <label for="len_<?=$value['id_lenguaje']?>">            
                     <input id="len_<?=$value['id_lenguaje']?>" type="checkbox" name="lenguaje[]" value="<?=$value['id_lenguaje']?>"
-                    <?= in_array( $value['id_lenguaje'], $lengUsuario) ? "checked" : "" ?>>
+                    <?= in_array( $value['id_lenguaje'], $lenguajesID) ? "checked" : "" ?>>
                     <?=$value['lenguaje']?>
                 </label>
                 <br>
@@ -143,7 +145,7 @@ if (isset($_SESSION['errores'])) {
                 foreach ($generos as $key => $value){
                 ?>
                 <label for="gen_<?=$value['id_genero']?>">            
-                    <input id="gen_<?=$value['id_genero']?>" type="radio" name="genero" value="<?=$value['id_genero']?>"
+                    <input id="gen_<?=$value['id_genero']?>" type="radio" name="genero" value="<?=$value['id_genero']?>" required
                     <?= $value['id_genero'] == $usuario['id_genero'] ? "checked" : "" ?>>
                     <?=$value['genero']?>
                 </label>
@@ -161,3 +163,7 @@ if (isset($_SESSION['errores'])) {
     </fieldset>
 
 </form>
+
+<?php
+}
+?>
